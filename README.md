@@ -21,3 +21,4 @@ Mỗi tên nhận một câu trong 50 lời chúc có sẵn. Trên **cùng trìn
 
 Danh sách tên đã nhận được lưu trong bộ nhớ của trình duyệt, không gửi lên máy chủ. Nếu các bạn mở website trên nhiều điện thoại hoặc trình duyệt khác nhau, mỗi thiết bị có danh sách riêng nên không thể bảo đảm tránh trùng giữa các thiết bị.
 # 20-10v
+# 20-10v
