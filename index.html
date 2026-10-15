@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8f2">
+  <meta name="description" content="Một lời chúc thật xinh gửi đến những bông hoa của lớp mình nhân ngày 20/10.">
+  <title>20/10 — Gửi những bông hoa của lớp mình</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #392d36;
+      --muted: #897b83;
+      --rose: #e56f8e;
+      --rose-dark: #bf4e71;
+      --cream: #fff8f2;
+      --green: #547365;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-width: 320px;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 10% 16%, #ffe5e8 0, transparent 29rem),
+        radial-gradient(ellipse at 90% 32%, #fcebdc 0, transparent 27rem),
+        var(--cream);
+      font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+    }
+
+    button, a { font: inherit; }
+    button { color: inherit; }
+
+    .page-shell {
+      position: relative;
+      width: min(1120px, calc(100% - 48px));
+      margin-inline: auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 27px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      font-size: .84rem;
+      font-weight: 800;
+      letter-spacing: .13em;
+      text-decoration: none;
+    }
+
+    .brand-flower { color: var(--rose); font-size: 1.45rem; }
+
+    .top-link {
+      color: var(--muted);
+      font-size: .9rem;
+      text-decoration: none;
+      transition: color .2s ease;
+    }
+
+    .top-link:hover { color: var(--rose-dark); }
+
+    .hero {
+      position: relative;
+      display: grid;
+      min-height: 560px;
+      grid-template-columns: 1.08fr .92fr;
+      align-items: center;
+      gap: 26px;
+      padding: 26px 0 62px;
+    }
+
+    .hero-copy { position: relative; z-index: 2; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 15px;
+      border: 1px solid #f4d8d8;
+      border-radius: 100px;
+      color: #a7596c;
+      background: #fffaf7bd;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+
+    .eyebrow::before { content: "✿"; color: var(--rose); font-size: 1rem; }
+
+    h1 {
+      max-width: 650px;
+      margin: 24px 0 18px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3.5rem, 8vw, 6.5rem);
+      font-weight: 500;
+      letter-spacing: -.065em;
+      line-height: .98;
+    }
+
+    h1 span {
+      display: block;
+      color: var(--rose-dark);
+      font-style: italic;
+    }
+
+    .hero-copy > p {
+      max-width: 465px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.85;
+    }
+
+    .hero-copy > p strong { color: #685660; font-weight: 700; }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 50px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 21px;
+      border: 0;
+      border-radius: 100px;
+      cursor: pointer;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .button:hover { transform: translateY(-3px); }
+    .button:focus-visible, a:focus-visible { outline: 3px solid #d86688; outline-offset: 4px; }
+
+    .button-primary {
+      color: white;
+      background: linear-gradient(135deg, #ed8ba0, #d75d7f);
+      box-shadow: 0 10px 24px #d75d7f38;
+    }
+
+    .button-primary:hover { box-shadow: 0 13px 29px #d75d7f50; }
+
+    .button-quiet {
+      color: #795e69;
+      background: #fffaf6cf;
+      box-shadow: inset 0 0 0 1px #f1dedb;
+    }
+
+    .button-quiet:hover { background: white; }
+    .button-icon { font-size: 1.1rem; }
+
+    .art {
+      position: relative;
+      display: grid;
+      min-height: 430px;
+      place-items: center;
+      isolation: isolate;
+    }
+
+    .art::before {
+      position: absolute;
+      z-index: -1;
+      width: min(390px, 82vw);
+      aspect-ratio: 1;
+      border: 1px solid #f2d9cf;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 46%, #fff8ef 0 22%, #fae8e2 22.5% 56%, #f6e1d8 56.5% 57%, transparent 57.5%);
+      content: "";
+      animation: breathe 6s ease-in-out infinite;
+    }
+
+    .bouquet {
+      position: relative;
+      width: 350px;
+      height: 385px;
+      animation: bouquet-float 5s ease-in-out infinite;
+    }
+
+    .flower {
+      position: absolute;
+      width: var(--size, 112px);
+      aspect-ratio: 1;
+      animation: flower-sway 4s ease-in-out infinite alternate;
+      animation-delay: var(--delay, 0s);
+    }
+
+    .flower .petal {
+      position: absolute;
+      top: 3%;
+      left: 38%;
+      width: 28%;
+      height: 44%;
+      transform-origin: 50% 107%;
+      transform: rotate(calc(var(--i) * 45deg));
+      border: 1px solid #ffffffa6;
+      border-radius: 50% 50% 46% 46%;
+      background: linear-gradient(155deg, var(--light), var(--color) 76%);
+      box-shadow: 0 4px 10px #be667123;
+    }
+
+    .flower .center {
+      position: absolute;
+      z-index: 2;
+      top: 39%;
+      left: 39%;
+      width: 23%;
+      aspect-ratio: 1;
+      border: 4px solid #fff4c9;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 32%, #fff2a9, #efb84e);
+      box-shadow: 0 2px 6px #8d59373d;
+    }
+
+    .flower-pink { --color: #e98ba2; --light: #ffd7d9; }
+    .flower-yellow { --color: #edb958; --light: #ffe7a4; }
+    .flower-lilac { --color: #ad91c8; --light: #e1c9eb; }
+
+    .flower-one { top: 28px; left: 112px; --size: 128px; --delay: -.9s; }
+    .flower-two { top: 110px; left: 30px; --size: 98px; --delay: -.2s; }
+    .flower-three { top: 130px; right: 26px; --size: 105px; --delay: -1.5s; }
+    .flower-four { top: 211px; left: 88px; --size: 86px; --delay: -.7s; }
+    .flower-five { top: 227px; right: 68px; --size: 80px; --delay: -1.1s; }
+
+    .stems {
+      position: absolute;
+      z-index: -1;
+      top: 162px;
+      left: 104px;
+      width: 157px;
+      height: 191px;
+      overflow: visible;
+    }
+
+    .leaf {
+      position: absolute;
+      z-index: -1;
+      width: 56px;
+      height: 25px;
+      border: 2px solid #829885;
+      border-radius: 100% 0 100% 0;
+      background: linear-gradient(130deg, #b9c9a8, #6f9078);
+      transform: rotate(-38deg);
+    }
+
+    .leaf-one { top: 204px; left: 86px; }
+    .leaf-two { top: 241px; left: 190px; transform: rotate(198deg); }
+    .leaf-three { top: 278px; left: 115px; transform: rotate(-30deg) scale(.82); }
+
+    .sparkle {
+      position: absolute;
+      color: #d99968;
+      animation: twinkle 2.3s ease-in-out infinite alternate;
+    }
+
+    .sparkle-one { top: 46px; left: 38px; font-size: 1.7rem; }
+    .sparkle-two { top: 76px; right: 30px; font-size: 1.15rem; animation-delay: -.8s; }
+    .sparkle-three { bottom: 42px; right: 32px; font-size: 1.55rem; animation-delay: -1.2s; }
+    .orbit-label {
+      position: absolute;
+      right: -2px;
+      bottom: 39px;
+      padding: 11px 16px;
+      border: 1px solid #f2e2d9;
+      border-radius: 30px;
+      color: #866e73;
+      background: #fffaf3e8;
+      box-shadow: 0 8px 25px #73594912;
+      font-family: Georgia, serif;
+      font-size: .9rem;
+      font-style: italic;
+      transform: rotate(-5deg);
+    }
+
+    .section-heading {
+      margin: 0 auto 35px;
+      text-align: center;
+    }
+
+    .section-heading .eyebrow { margin-bottom: 13px; }
+
+    .section-heading h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.3rem, 5vw, 3.7rem);
+      font-weight: 500;
+      letter-spacing: -.045em;
+    }
+
+    .section-heading p { margin: 12px 0 0; color: var(--muted); line-height: 1.7; }
+
+    .wishes { padding: 31px 0 78px; }
+
+    .wish-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 17px;
+    }
+
+    .wish-card {
+      min-height: 202px;
+      padding: 25px 25px 23px;
+      border: 1px solid #f0e3dc;
+      border-radius: 22px;
+      background: #fffaf6d9;
+      box-shadow: 0 12px 35px #775c4d09;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .wish-card:hover { transform: translateY(-6px) rotate(-.4deg); box-shadow: 0 18px 42px #775c4d15; }
+    .wish-card:nth-child(2):hover { transform: translateY(-6px) rotate(.4deg); }
+    .wish-icon { font-size: 1.75rem; }
+    .wish-card h3 { margin: 12px 0 8px; font-family: Georgia, serif; font-size: 1.28rem; font-weight: 600; }
+    .wish-card p { margin: 0; color: var(--muted); font-size: .94rem; line-height: 1.7; }
+
+    .closing {
+      position: relative;
+      display: flex;
+      min-height: 240px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 46px;
+      padding: 36px 24px;
+      overflow: hidden;
+      border: 1px solid #f0dcd6;
+      border-radius: 30px;
+      background: linear-gradient(125deg, #fff0ee, #fff8ed 55%, #f8edf2);
+      text-align: center;
+    }
+
+    .closing::before, .closing::after {
+      position: absolute;
+      color: #e9b2af;
+      font-size: 6rem;
+      opacity: .42;
+      content: "✿";
+      pointer-events: none;
+    }
+
+    .closing::before { top: -19px; left: 24px; transform: rotate(-18deg); }
+    .closing::after { right: 19px; bottom: -30px; transform: rotate(22deg); }
+    .closing p { max-width: 580px; margin: 0 0 20px; color: #765e68; font-family: Georgia, serif; font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.5; }
+    .closing p span { color: var(--rose-dark); font-style: italic; }
+
+    footer {
+      padding: 0 0 27px;
+      color: #a09298;
+      font-size: .84rem;
+      text-align: center;
+    }
+
+    .petals {
+      position: fixed;
+      z-index: 5;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .falling-petal {
+      position: absolute;
+      top: -35px;
+      width: var(--petal-size);
+      height: calc(var(--petal-size) * 1.3);
+      border-radius: 90% 5% 90% 5%;
+      background: linear-gradient(145deg, #f5acb4bd, #e87991b8);
+      animation: petal-fall var(--duration) linear var(--delay) infinite;
+      opacity: 0;
+    }
+
+    .toast {
+      position: fixed;
+      z-index: 12;
+      right: 24px;
+      bottom: 24px;
+      max-width: calc(100% - 48px);
+      padding: 14px 20px;
+      border: 1px solid #f3d6dc;
+      border-radius: 18px;
+      color: #754f5b;
+      background: #fffaf7;
+      box-shadow: 0 12px 38px #49303c25;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(14px);
+      transition: opacity .25s ease, transform .25s ease;
+    }
+
+    .toast.visible { opacity: 1; transform: translateY(0); }
+
+    dialog {
+      width: min(470px, calc(100% - 32px));
+      padding: 36px;
+      border: 1px solid #f0d9d9;
+      border-radius: 28px;
+      color: var(--ink);
+      background: #fffaf6;
+      box-shadow: 0 25px 90px #392d3660;
+      text-align: center;
+    }
+
+    dialog::backdrop { background: #392d3666; backdrop-filter: blur(5px); }
+    .dialog-flower { font-size: 2.6rem; }
+    dialog h2 { margin: 9px 0 12px; color: var(--rose-dark); font-family: Georgia, serif; font-size: 2.2rem; font-weight: 500; }
+    dialog p { margin: 0 0 23px; color: #786a72; line-height: 1.85; }
+    .wish-form { display: grid; gap: 11px; text-align: left; }
+    .wish-form label { color: #685660; font-size: .9rem; font-weight: 700; }
+    .wish-form input {
+      width: 100%;
+      min-height: 49px;
+      padding: 0 15px;
+      border: 1px solid #ead6d6;
+      border-radius: 14px;
+      color: var(--ink);
+      background: white;
+      font: inherit;
+    }
+    .wish-form input:focus { border-color: var(--rose); outline: 3px solid #e56f8e24; }
+    .wish-form .button { width: 100%; margin-top: 4px; }
+    .wish-status { min-height: 1.4em; margin: 0; color: var(--rose-dark); font-size: .86rem; text-align: center; }
+    .personal-wish { margin-top: 23px; padding: 20px; border: 1px solid #f0dcd6; border-radius: 20px; background: linear-gradient(135deg, #fff1ef, #fff8ee); text-align: left; }
+    .personal-wish[hidden] { display: none; }
+    .personal-wish h3 { margin: 0 0 13px; color: var(--rose-dark); font-family: Georgia, serif; font-size: 1.35rem; font-weight: 500; text-align: center; }
+    .personal-wish ul { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+    .personal-wish li { position: relative; padding-left: 25px; color: #786a72; font-size: .92rem; line-height: 1.65; }
+    .personal-wish li::before { position: absolute; left: 0; color: var(--rose); content: "✿"; }
+    .personal-wish .privacy-note { margin: 15px 0 0; color: #a09298; font-size: .8rem; text-align: center; }
+    .dialog-close { margin-top: 18px; }
+
+    .petal-burst {
+      position: fixed;
+      z-index: 10;
+      width: 12px;
+      height: 17px;
+      border-radius: 80% 10% 80% 10%;
+      pointer-events: none;
+      animation: burst 1.5s cubic-bezier(.12,.65,.3,1) forwards;
+    }
+
+    @keyframes breathe { 50% { transform: scale(1.035); } }
+    @keyframes bouquet-float { 50% { transform: translateY(-9px) rotate(1deg); } }
+    @keyframes flower-sway { to { transform: rotate(5deg) translateY(-3px); } }
+    @keyframes twinkle { to { opacity: .42; transform: scale(.75) rotate(22deg); } }
+    @keyframes petal-fall {
+      0% { opacity: 0; transform: translate3d(0, -5vh, 0) rotate(0); }
+      12% { opacity: .68; }
+      88% { opacity: .6; }
+      100% { opacity: 0; transform: translate3d(var(--drift), 108vh, 0) rotate(610deg); }
+    }
+    @keyframes burst {
+      to { opacity: 0; transform: translate(var(--x), var(--y)) rotate(var(--spin)) scale(.35); }
+    }
+
+    @media (max-width: 760px) {
+      .page-shell { width: min(100% - 36px, 560px); }
+      .topbar { padding: 20px 0; }
+      .hero { min-height: 0; grid-template-columns: minmax(0, 1fr); gap: 0; padding: 47px 0 25px; text-align: center; }
+      .hero-copy > p { margin-inline: auto; }
+      .hero-actions { justify-content: center; }
+      .art { min-height: 360px; }
+      .bouquet { transform: scale(.88); }
+      .wish-grid { grid-template-columns: 1fr; gap: 12px; }
+      .wish-card { min-height: 0; padding: 21px; }
+      .wishes { padding: 20px 0 56px; }
+      .closing { min-height: 220px; }
+    }
+
+    @media (max-width: 420px) {
+      .page-shell { width: calc(100% - 30px); }
+      .top-link { font-size: .8rem; }
+      .hero { padding-top: 35px; }
+      .hero-copy > p { font-size: 1rem; }
+      .art { min-height: 315px; }
+      .bouquet { transform: scale(.76); }
+      .orbit-label { right: 0; bottom: 18px; }
+      dialog { padding: 29px 23px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+      .petals { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="petals" aria-hidden="true"></div>
+
+  <header class="page-shell topbar">
+    <a class="brand" href="#" aria-label="Về đầu trang">
+      <span class="brand-flower" aria-hidden="true">✿</span>
+      11A6 <span aria-hidden="true">·</span> 20.10
+    </a>
+    <a class="top-link" href="#loi-thuong">Một chút yêu thương <span aria-hidden="true">↓</span></a>
+  </header>
+
+  <main>
+    <section class="page-shell hero" aria-labelledby="main-title">
+      <div class="hero-copy">
+        <div class="eyebrow">20 tháng 10 · Ngày của những yêu thương</div>
+        <h1 id="main-title">Gửi những <span>bông hoa</span> của lớp mình</h1>
+        <p>
+          Hôm nay là một dịp thật xinh để nói với các bạn nữ rằng:
+          <strong>cảm ơn vì đã làm tập thể 11A6 luôn rộn ràng và ấm áp.</strong>
+        </p>
+        <div class="hero-actions">
+          <button class="button button-primary" id="open-wish" type="button">
+            <span class="button-icon" aria-hidden="true">💌</span> Nhận lời chúc riêng
+          </button>
+          <a class="button button-quiet" href="#loi-thuong">Dành tặng lớp mình <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+
+      <div class="art" aria-label="Bó hoa rực rỡ gửi tặng các bạn nữ" role="img">
+        <span class="sparkle sparkle-one" aria-hidden="true">✦</span>
+        <span class="sparkle sparkle-two" aria-hidden="true">✧</span>
+        <span class="sparkle sparkle-three" aria-hidden="true">✦</span>
+        <div class="bouquet">
+          <svg class="stems" viewBox="0 0 157 191" fill="none" aria-hidden="true">
+            <path d="M79 5C76 65 55 110 18 185M78 7C79 70 79 123 78 190M80 7C91 67 108 120 145 185M75 35C56 74 44 118 41 170M84 42C104 87 116 128 121 174" stroke="#718c76" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+          <span class="leaf leaf-one"></span>
+          <span class="leaf leaf-two"></span>
+          <span class="leaf leaf-three"></span>
+          <div class="flower flower-pink flower-one" aria-hidden="true">
+            <i class="petal" style="--i:0"></i><i class="petal" style="--i:1"></i><i class="petal" style="--i:2"></i><i class="petal" style="--i:3"></i>
+            <i class="petal" style="--i:4"></i><i class="petal" style="--i:5"></i><i class="petal" style="--i:6"></i><i class="petal" style="--i:7"></i><i class="center"></i>
+          </div>
+          <div class="flower flower-yellow flower-two" aria-hidden="true">
+            <i class="petal" style="--i:0"></i><i class="petal" style="--i:1"></i><i class="petal" style="--i:2"></i><i class="petal" style="--i:3"></i>
+            <i class="petal" style="--i:4"></i><i class="petal" style="--i:5"></i><i class="petal" style="--i:6"></i><i class="petal" style="--i:7"></i><i class="center"></i>
+          </div>
+          <div class="flower flower-lilac flower-three" aria-hidden="true">
+            <i class="petal" style="--i:0"></i><i class="petal" style="--i:1"></i><i class="petal" style="--i:2"></i><i class="petal" style="--i:3"></i>
+            <i class="petal" style="--i:4"></i><i class="petal" style="--i:5"></i><i class="petal" style="--i:6"></i><i class="petal" style="--i:7"></i><i class="center"></i>
+          </div>
+          <div class="flower flower-yellow flower-four" aria-hidden="true">
+            <i class="petal" style="--i:0"></i><i class="petal" style="--i:1"></i><i class="petal" style="--i:2"></i><i class="petal" style="--i:3"></i>
+            <i class="petal" style="--i:4"></i><i class="petal" style="--i:5"></i><i class="petal" style="--i:6"></i><i class="petal" style="--i:7"></i><i class="center"></i>
+          </div>
+          <div class="flower flower-pink flower-five" aria-hidden="true">
+            <i class="petal" style="--i:0"></i><i class="petal" style="--i:1"></i><i class="petal" style="--i:2"></i><i class="petal" style="--i:3"></i>
+            <i class="petal" style="--i:4"></i><i class="petal" style="--i:5"></i><i class="petal" style="--i:6"></i><i class="petal" style="--i:7"></i><i class="center"></i>
+          </div>
+        </div>
+        <div class="orbit-label">Gửi những bông hoa 11A6 ♡</div>
+      </div>
+    </section>
+
+    <section class="page-shell wishes" id="loi-thuong" aria-labelledby="wishes-title">
+      <div class="section-heading">
+        <div class="eyebrow">Một lời chúc nhỏ</div>
+        <h2 id="wishes-title">Chúc bạn luôn rực rỡ</h2>
+        <p>Gửi những lời chúc khác nhau đến từng bạn nữ của tập thể 11A6.</p>
+      </div>
+
+      <div class="wish-grid">
+        <article class="wish-card">
+          <span class="wish-icon" aria-hidden="true">🌷</span>
+          <h3>Luôn vui như nắng</h3>
+          <p>Chúc bạn lúc nào cũng tươi tắn, yêu đời và cười thật nhiều mỗi ngày.</p>
+        </article>
+        <article class="wish-card">
+          <span class="wish-icon" aria-hidden="true">✨</span>
+          <h3>Toả sáng theo cách riêng</h3>
+          <p>Mong mọi ước mơ của bạn đều nở hoa, và mọi cố gắng đều được đền đáp.</p>
+        </article>
+        <article class="wish-card">
+          <span class="wish-icon" aria-hidden="true">🫶</span>
+          <h3>Luôn được yêu thương</h3>
+          <p>Cảm ơn bạn vì đã là một mảnh ghép thật đặc biệt của lớp chúng mình.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="page-shell closing" aria-label="Lời chúc chung">
+      <p>Gửi một cái ôm thật to đến <span>những cô gái tuyệt vời nhất 11A6!</span></p>
+      <button class="button button-primary" id="send-flower" type="button">
+        <span class="button-icon" aria-hidden="true">🌸</span> Tặng lớp mình một bông hoa
+      </button>
+    </section>
+  </main>
+
+  <footer class="page-shell">Từ tập thể 11A6, với thật nhiều yêu thương · 20/10</footer>
+
+  <dialog id="wish-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-flower" aria-hidden="true">💐</div>
+    <h2 id="dialog-title">Lời chúc dành riêng cho bạn</h2>
+    <p id="wish-intro">Mỗi bạn nữ 11A6 nhận một trong 50 lời chúc riêng, không trùng nhau nhé!</p>
+    <form class="wish-form" id="wish-form">
+      <label for="friend-name">Tên của bạn</label>
+      <input id="friend-name" name="name" type="text" maxlength="40" autocomplete="name" placeholder="Ví dụ: hoa" required>
+      <button class="button button-primary" id="wish-submit" type="submit">Nhận lời chúc từ 11A6 ♡</button>
+      <p class="wish-status" id="wish-status" role="status" aria-live="polite"></p>
+    </form>
+    <section class="personal-wish" id="personal-wish" aria-live="polite" hidden>
+      <h3 id="personal-title"></h3>
+      <ul id="personal-messages"></ul>
+      <p class="privacy-note">Tên và câu chúc chỉ lưu trên trình duyệt này; hãy dùng chung một thiết bị để tránh trùng.</p>
+    </section>
+    <button class="button button-quiet dialog-close" id="close-wish" type="button">Đóng thiệp</button>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">🌷 Một bông hoa và thật nhiều yêu thương đã được gửi đi!</div>
+
+  <script>
+    const petalContainer = document.querySelector(".petals");
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    if (!prefersReducedMotion.matches) {
+      for (let i = 0; i < 16; i += 1) {
+        const petal = document.createElement("span");
+        petal.className = "falling-petal";
+        petal.style.left = `${Math.random() * 100}%`;
+        petal.style.setProperty("--petal-size", `${8 + Math.random() * 8}px`);
+        petal.style.setProperty("--duration", `${12 + Math.random() * 14}s`);
+        petal.style.setProperty("--delay", `${-Math.random() * 25}s`);
+        petal.style.setProperty("--drift", `${-90 + Math.random() * 180}px`);
+        petalContainer.append(petal);
+      }
+    }
+
+    const wishDialog = document.querySelector("#wish-dialog");
+    const toast = document.querySelector("#toast");
+    const wishStatus = document.querySelector("#wish-status");
+    let toastTimer;
+
+    const nameInput = document.querySelector("#friend-name");
+    const savedWish = document.querySelector("#personal-wish");
+
+    document.querySelector("#open-wish").addEventListener("click", () => {
+      wishDialog.showModal();
+      if (savedWish.hidden) nameInput.focus();
+    });
+    document.querySelector("#close-wish").addEventListener("click", () => wishDialog.close());
+    wishDialog.addEventListener("click", (event) => {
+      if (event.target === wishDialog) wishDialog.close();
+    });
+
+    const wishPool = [
+      "Chúc {name} luôn tự tin, xinh tươi và tỏa sáng theo cách thật riêng của mình.",
+      "Chúc {name} có một ngày 20/10 ngập tràn niềm vui, tiếng cười và những điều ngọt ngào.",
+      "Mong {name} luôn vững vàng theo đuổi ước mơ và tự hào về mọi cố gắng của bản thân.",
+      "Chúc nụ cười của {name} luôn rạng rỡ, thắp sáng cả một ngày bình thường.",
+      "Mong {name} có một năm học nhiều thành tích đáng tự hào và kỷ niệm thật đẹp cùng 11A6.",
+      "Chúc {name} luôn gặp những người bạn tốt, luôn được lắng nghe và trân trọng.",
+      "Mong mọi dự định của {name} đều thuận lợi, mọi mục tiêu đều dần trở thành hiện thực.",
+      "Chúc {name} mỗi ngày đều có thêm một lý do đáng yêu để mỉm cười.",
+      "Mong {name} luôn giữ được sự hồn nhiên, ấm áp và năng lượng tích cực của mình.",
+      "Chúc cô gái {name} luôn khỏe mạnh, bình an và được yêu thương thật nhiều.",
+      "Mong những điều tử tế sẽ luôn tìm đến {name}, giống như cách {name} làm mọi người vui.",
+      "Chúc {name} học điều gì cũng hiểu, thi bài nào cũng tốt và luôn tin vào chính mình.",
+      "Mong {name} ngày càng khám phá được nhiều khả năng tuyệt vời của bản thân.",
+      "Chúc {name} có thật nhiều khoảnh khắc đáng nhớ và tình bạn đẹp dưới mái trường.",
+      "Mong hành trình phía trước của {name} luôn có niềm vui, hy vọng và những điều mới mẻ.",
+      "Chúc {name} lúc nào cũng rạng rỡ, dù là ngày nắng vàng hay một hôm trời nhiều mây.",
+      "Mong {name} đủ kiên trì với điều mình yêu thích và đủ dịu dàng với chính mình.",
+      "Chúc {name} gặp nhiều may mắn, nhận nhiều tin vui và đạt kết quả thật xứng đáng.",
+      "Mong mỗi ngày đến lớp của {name} đều có chuyện vui để kể cùng 11A6.",
+      "Chúc {name} luôn xinh đẹp từ nụ cười, tự tin từ bên trong và mạnh mẽ theo cách riêng.",
+      "Mong mọi nỗ lực thầm lặng của {name} đều được đền đáp bằng những thành quả ngọt ngào.",
+      "Chúc {name} có một ngày lễ thật vui và cả tháng Mười thật nhiều điều bất ngờ dễ thương.",
+      "Mong {name} luôn giữ được sự tò mò, ham học hỏi và đam mê khám phá những điều hay.",
+      "Chúc những ước mơ của {name} lớn lên mỗi ngày và sớm nở thành hiện thực.",
+      "Mong {name} luôn bình an, an nhiên và có thật nhiều người bạn đáng tin bên cạnh.",
+      "Chúc {name} đi học vui vẻ, làm bài thật tốt và lúc nào cũng tràn đầy cảm hứng.",
+      "Mong nét đáng yêu của {name} sẽ mang đến thật nhiều tiếng cười cho lớp 11A6.",
+      "Chúc {name} luôn nhận ra mình đặc biệt thế nào và tự tin đón nhận những cơ hội mới.",
+      "Mong {name} có thêm thật nhiều trải nghiệm thú vị và những kỷ niệm tuổi học trò đáng nhớ.",
+      "Chúc {name} gặp thuận lợi trong những việc đang làm và tự hào về con đường đã chọn.",
+      "Mong {name} ngày càng trưởng thành nhưng vẫn giữ mãi trái tim ấm áp, đáng mến.",
+      "Chúc mọi ngày của {name} đều có chút nắng, chút vui và thật nhiều thương mến.",
+      "Mong {name} luôn tìm được động lực mới mỗi khi mệt và niềm vui sau mỗi lần cố gắng.",
+      "Chúc {name} tự tin phát biểu, vững vàng trước thử thách và tỏa sáng trong mọi hoạt động.",
+      "Mong những trang thanh xuân của {name} cùng 11A6 luôn đầy ắp tiếng cười chân thành.",
+      "Chúc {name} gặp được thật nhiều điều tốt lành và luôn nhớ rằng lớp mình quý bạn lắm.",
+      "Mong {name} có đủ dũng khí để thử điều mới và đủ tự hào với những bước tiến nhỏ.",
+      "Chúc cô bạn {name} luôn yêu đời, yêu bản thân và được cuộc sống dịu dàng ôm lấy.",
+      "Mong {name} hoàn thành tốt những mục tiêu đang đặt ra và luôn vui với hành trình đó.",
+      "Chúc {name} luôn có những buổi sáng đầy hứng khởi và những buổi chiều tan học thật vui.",
+      "Mong điều tuyệt vời nhất của hôm nay chỉ là khởi đầu cho nhiều niềm vui của {name}.",
+      "Chúc {name} luôn duyên dáng, thông minh và là phiên bản hạnh phúc nhất của chính mình.",
+      "Mong {name} giữ mãi những tình bạn đẹp và cùng 11A6 tạo nên nhiều chuyện đáng nhớ.",
+      "Chúc {name} gặp đúng cơ hội, đúng người đồng hành và đúng thời điểm cho những ước mơ.",
+      "Mong mỗi thử thách đều giúp {name} thêm trưởng thành và thêm tin vào khả năng của mình.",
+      "Chúc {name} có một dịp 20/10 thật đáng nhớ, được quan tâm bằng những điều nhỏ bé chân thành.",
+      "Mong {name} luôn được là chính mình, thoải mái theo đuổi sở thích và tỏa sáng thật tự nhiên.",
+      "Chúc cô gái {name} luôn tràn đầy sức sống, lòng tốt và những ý tưởng thật tuyệt vời.",
+      "Mong những niềm vui nho nhỏ sẽ ghé thăm {name} mỗi ngày và ở lại thật lâu.",
+      "Chúc {name} đón tuổi học trò với tâm thế tự tin, trái tim vui vẻ và bao dự định đẹp."
+    ];
+    const wishStorageKey = "11a6-2010-wish-assignments-v1";
+    const normalizeName = (name) => name.normalize("NFC").trim().replace(/\s+/g, " ").toLocaleLowerCase("vi");
+    const hashName = (name) => {
+      let hash = 2166136261;
+      for (const character of name) hash = Math.imul(hash ^ character.codePointAt(0), 16777619);
+      return (hash >>> 0) % wishPool.length;
+    };
+
+    document.querySelector("#wish-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const name = nameInput.value.trim();
+      if (!name) {
+        nameInput.focus();
+        return;
+      }
+
+      const key = normalizeName(name);
+      let assignments;
+      try {
+        const stored = localStorage.getItem(wishStorageKey);
+        assignments = stored ? JSON.parse(stored) : [];
+        if (!Array.isArray(assignments) || assignments.some((entry) =>
+          !Array.isArray(entry) || typeof entry[0] !== "string" ||
+          typeof entry[1] !== "string" || !Number.isInteger(entry[2]) ||
+          entry[2] < 0 || entry[2] >= wishPool.length
+        )) {
+          throw new Error("Dữ liệu lời chúc trên thiết bị không hợp lệ.");
+        }
+      } catch (error) {
+        wishStatus.textContent = error instanceof SyntaxError
+          ? "Không đọc được danh sách lời chúc. Hãy báo người quản lý lớp kiểm tra dữ liệu trình duyệt."
+          : "Trình duyệt không cho lưu lời chúc. Hãy bật bộ nhớ trang web rồi thử lại.";
+        return;
+      }
+
+      const previous = assignments.find((entry) => entry[0] === key);
+      let slot;
+      let repeated = false;
+
+      if (previous) {
+        slot = previous[2];
+        repeated = true;
+      } else {
+        const usedSlots = new Set(assignments.map((entry) => entry[2]));
+        const start = hashName(key);
+        slot = Array.from({ length: wishPool.length }, (_, offset) => (start + offset) % wishPool.length)
+          .find((candidate) => !usedSlots.has(candidate));
+        if (slot === undefined) {
+          wishStatus.textContent = "50 lời chúc của 11A6 đã được nhận hết trên trình duyệt này.";
+          return;
+        }
+        assignments.push([key, name, slot]);
+        try {
+          localStorage.setItem(wishStorageKey, JSON.stringify(assignments));
+        } catch {
+          wishStatus.textContent = "Trình duyệt không lưu được lượt nhận. Hãy bật bộ nhớ trang web rồi thử lại.";
+          return;
+        }
+      }
+
+      document.querySelector("#personal-title").textContent = `Lời chúc số ${String(slot + 1).padStart(2, "0")} · Gửi riêng ${previous ? previous[1] : name} · 11A6 ♡`;
+      const item = document.createElement("li");
+      item.textContent = wishPool[slot].replaceAll("{name}", previous ? previous[1] : name);
+      document.querySelector("#personal-messages").replaceChildren(item);
+      savedWish.hidden = false;
+      document.querySelector("#wish-intro").textContent = "50 lời chúc được viết sẵn trong trang web; mỗi tên nhận một câu riêng trên trình duyệt này.";
+      document.querySelector("#wish-submit").textContent = "Nhập tên bạn khác ♡";
+      wishStatus.textContent = repeated
+        ? "Tên này đã nhận lời chúc trước đó; mình gửi lại đúng câu cũ nhé."
+        : `Đã nhận lời chúc riêng! Trình duyệt này còn ${wishPool.length - assignments.length} câu chưa được gửi.`;
+    });
+
+    function sendFlower(button) {
+      const bounds = button.getBoundingClientRect();
+      const originX = bounds.left + bounds.width / 2;
+      const originY = bounds.top + bounds.height / 2;
+
+      for (let i = 0; i < 32; i += 1) {
+        const petal = document.createElement("span");
+        const angle = (Math.PI * 2 * i) / 32;
+        const distance = 55 + Math.random() * 155;
+        petal.className = "petal-burst";
+        petal.style.left = `${originX}px`;
+        petal.style.top = `${originY}px`;
+        petal.style.background = ["#ee91a5", "#edbd62", "#ba9bd3", "#f5c2bd"][i % 4];
+        petal.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
+        petal.style.setProperty("--y", `${Math.sin(angle) * distance}px`);
+        petal.style.setProperty("--spin", `${Math.random() * 420 - 210}deg`);
+        document.body.append(petal);
+        petal.addEventListener("animationend", () => petal.remove(), { once: true });
+      }
+
+      toast.classList.add("visible");
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => toast.classList.remove("visible"), 3200);
+    }
+
+    document.querySelector("#send-flower").addEventListener("click", (event) => sendFlower(event.currentTarget));
+  </script>
+</body>
+</html>
