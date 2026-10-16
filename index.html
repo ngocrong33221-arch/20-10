@@ -1073,6 +1073,8 @@
       return (hash >>> 0) % wishPool.length;
     };
 
+    let memoryAssignments = [];
+
     document.querySelector("#wish-form").addEventListener("submit", (event) => {
       event.preventDefault();
       const name = nameInput.value.trim();
@@ -1082,22 +1084,22 @@
       }
 
       const key = normalizeName(name);
-      let assignments;
+      let assignments = memoryAssignments;
+      let canUseStorage = false;
+
       try {
         const stored = localStorage.getItem(wishStorageKey);
-        assignments = stored ? JSON.parse(stored) : [];
-        if (!Array.isArray(assignments) || assignments.some((entry) =>
-          !Array.isArray(entry) || typeof entry[0] !== "string" ||
-          typeof entry[1] !== "string" || !Number.isInteger(entry[2]) ||
-          entry[2] < 0 || entry[2] >= wishPool.length
-        )) {
-          throw new Error("Dữ liệu lời chúc trên thiết bị không hợp lệ.");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed)) {
+            assignments = parsed;
+            memoryAssignments = parsed;
+          }
         }
-      } catch (error) {
-        wishStatus.textContent = error instanceof SyntaxError
-          ? "Không đọc được danh sách lời chúc. Hãy báo người quản lý lớp kiểm tra dữ liệu trình duyệt."
-          : "Trình duyệt không cho lưu lời chúc. Hãy bật bộ nhớ trang web rồi thử lại.";
-        return;
+        canUseStorage = true;
+      } catch (e) {
+        // Trình duyệt chặn cookie/storage hoặc mở file trực tiếp dạng file://
+        assignments = memoryAssignments;
       }
 
       const previous = assignments.find((entry) => entry[0] === key);
@@ -1110,18 +1112,24 @@
       } else {
         const usedSlots = new Set(assignments.map((entry) => entry[2]));
         const start = hashName(key);
+        // Ưu tiên chọn lời chúc chưa ai nhận
         slot = Array.from({ length: wishPool.length }, (_, offset) => (start + offset) % wishPool.length)
           .find((candidate) => !usedSlots.has(candidate));
+        
+        // Nếu đã nhận hết 20 câu, dùng hash để xoay vòng câu chúc đẹp
         if (slot === undefined) {
-          wishStatus.textContent = "50 lời chúc của 11A6 đã được nhận hết trên trình duyệt này.";
-          return;
+          slot = start;
         }
+
         assignments.push([key, name, slot]);
-        try {
-          localStorage.setItem(wishStorageKey, JSON.stringify(assignments));
-        } catch {
-          wishStatus.textContent = "Trình duyệt không lưu được lượt nhận. Hãy bật bộ nhớ trang web rồi thử lại.";
-          return;
+        memoryAssignments = assignments;
+
+        if (canUseStorage) {
+          try {
+            localStorage.setItem(wishStorageKey, JSON.stringify(assignments));
+          } catch (e) {
+            // Không chặn nếu storage bị đầy hoặc hạn chế
+          }
         }
       }
 
@@ -1130,11 +1138,16 @@
       item.textContent = wishPool[slot].replaceAll("{name}", previous ? previous[1] : name);
       document.querySelector("#personal-messages").replaceChildren(item);
       savedWish.hidden = false;
-      document.querySelector("#wish-intro").textContent = "50 lời chúc được viết sẵn trong trang web; mỗi tên nhận một câu riêng trên trình duyệt này.";
+      document.querySelector("#wish-intro").textContent = "Mỗi bạn nữ đều có một lời chúc đặc biệt dành riêng cho mình.";
       document.querySelector("#wish-submit").textContent = "Nhập tên bạn khác ♡";
       wishStatus.textContent = repeated
-        ? "Tên này đã nhận lời chúc trước đó; mình gửi lại đúng câu cũ nhé."
-        : `Đã nhận lời chúc riêng! Trình duyệt này còn ${wishPool.length - assignments.length} câu chưa được gửi.`;
+        ? "Tên này đã nhận lời chúc trước đó; mình gửi lại đúng câu chúc thân thương nhé!"
+        : "Đã tạo lời chúc riêng thành công! Chúc bạn ngày 20/10 thật hạnh phúc! 🌸";
+
+      // Bắn pháo hoa nhỏ và tung hoa chúc mừng khi nhận được lời chúc
+      if (window.triggerFireworks) {
+        window.triggerFireworks(window.innerWidth / 2, window.innerHeight / 2);
+      }
     });
 
     function sendFlower(button) {
