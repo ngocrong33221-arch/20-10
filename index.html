@@ -504,9 +504,52 @@
       }
       .petals { display: none; }
     }
+
+    /* Nút điều khiển phát nhạc */
+    .music-btn {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      z-index: 99;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border: 1px solid #f3d6dc;
+      border-radius: 100px;
+      background: #fffaf7f0;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 24px #49303c1f;
+      color: var(--rose-dark);
+      font-size: .88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .25s ease;
+    }
+    .music-btn:hover {
+      background: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px #49303c2a;
+    }
+    .music-btn.playing .music-disc {
+      animation: spin 3s linear infinite;
+    }
+    .music-disc {
+      display: inline-block;
+      font-size: 1.15rem;
+    }
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
+  <audio id="bg-music" src="thang-nam-ruc-ro.mp3" preload="auto" loop></audio>
+  <button id="music-toggle" class="music-btn" type="button" aria-label="Bật/Tắt nhạc nền">
+    <span class="music-disc" aria-hidden="true">🎵</span>
+    <span class="music-label">Nhạc: Tháng Năm Rực Rỡ</span>
+  </button>
+
   <div class="petals" aria-hidden="true"></div>
 
   <header class="page-shell topbar">
@@ -574,7 +617,7 @@
       <div class="section-heading">
         <div class="eyebrow">Một lời chúc nhỏ</div>
         <h2 id="wishes-title">Chúc bạn luôn rực rỡ</h2>
-        <p>Gửi những lời chúc khác nhau đến từng bạn nữ của tập thể 11A6.</p>
+        <p>Gửi những lời chúc đến từng bạn nữ của tập thể 11A6.</p>
       </div>
 
       <div class="wish-grid">
@@ -810,6 +853,64 @@
     }
 
     document.querySelector("#send-flower").addEventListener("click", (event) => sendFlower(event.currentTarget));
+
+    // Xử lý phát nhạc tự động bài Tháng Năm Rực Rỡ
+    const bgMusic = document.querySelector("#bg-music");
+    const musicToggle = document.querySelector("#music-toggle");
+    const musicLabel = musicToggle.querySelector(".music-label");
+
+    let isPlaying = false;
+
+    function startMusic() {
+      if (isPlaying) return;
+      bgMusic.play().then(() => {
+        isPlaying = true;
+        musicToggle.classList.add("playing");
+        musicLabel.textContent = "Đang phát: Tháng Năm Rực Rỡ";
+      }).catch(() => {
+        // Trình duyệt chặn autoplay khi chưa có tương tác
+        musicLabel.textContent = "Bấm để nghe: Tháng Năm Rực Rỡ";
+      });
+    }
+
+    function toggleMusic() {
+      if (isPlaying) {
+        bgMusic.pause();
+        isPlaying = false;
+        musicToggle.classList.remove("playing");
+        musicLabel.textContent = "Phát nhạc: Tháng Năm Rực Rỡ";
+      } else {
+        bgMusic.play().then(() => {
+          isPlaying = true;
+          musicToggle.classList.add("playing");
+          musicLabel.textContent = "Đang phát: Tháng Năm Rực Rỡ";
+        }).catch(console.error);
+      }
+    }
+
+    musicToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleMusic();
+    });
+
+    // Cố gắng tự động phát ngay khi tải trang
+    window.addEventListener("DOMContentLoaded", () => {
+      startMusic();
+    });
+
+    // Khi người dùng bấm bất kỳ đâu lần đầu tiên trên trang web, tự động bật nhạc nếu trình duyệt chặn autoplay trước đó
+    const handleFirstInteraction = () => {
+      if (!isPlaying) {
+        startMusic();
+      }
+      window.removeEventListener("click", handleFirstInteraction);
+      window.removeEventListener("touchstart", handleFirstInteraction);
+      window.removeEventListener("keydown", handleFirstInteraction);
+    };
+
+    window.addEventListener("click", handleFirstInteraction);
+    window.addEventListener("touchstart", handleFirstInteraction);
+    window.addEventListener("keydown", handleFirstInteraction);
   </script>
 </body>
 </html>
