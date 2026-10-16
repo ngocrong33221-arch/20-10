@@ -505,6 +505,108 @@
       .petals { display: none; }
     }
 
+    /* Hiệu ứng đom đóm / hạt sáng lấp lánh bay lượn */
+    .glow-particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 4;
+      overflow: hidden;
+    }
+    .firefly {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff, #ffd57e 70%, transparent);
+      box-shadow: 0 0 10px #ffbb3d, 0 0 18px #ff7e9e;
+      animation: float-particle 14s infinite ease-in-out;
+      opacity: 0.8;
+    }
+    @keyframes float-particle {
+      0%, 100% { transform: translateY(105vh) translateX(0) scale(0.6); opacity: 0; }
+      15% { opacity: 0.9; }
+      50% { transform: translateY(45vh) translateX(50px) scale(1.15); opacity: 0.95; }
+      85% { opacity: 0.85; }
+      98% { opacity: 0; transform: translateY(-5vh) translateX(-30px) scale(0.8); }
+    }
+
+    /* Hiệu ứng con trỏ chuột rải hoa / sao */
+    .cursor-sparkle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      font-size: 1.1rem;
+      user-select: none;
+      animation: sparkle-fade 0.9s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+    }
+    @keyframes sparkle-fade {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1.2) rotate(0deg); }
+      100% { opacity: 0; transform: translate(-50%, -80px) scale(0.3) rotate(120deg); }
+    }
+
+    /* Màn chào đón ngọt ngào (Welcome Gate) để phát nhạc 100% mượt mà */
+    .welcome-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: radial-gradient(circle at center, #fff9f6 0%, #ffe9ee 60%, #ffdbe4 100%);
+      backdrop-filter: blur(14px);
+      text-align: center;
+      transition: opacity .7s ease, visibility .7s ease;
+    }
+    .welcome-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .welcome-box {
+      max-width: 460px;
+      padding: 38px 30px;
+      border: 1px solid #f8ccd6;
+      border-radius: 32px;
+      background: #ffffffeb;
+      box-shadow: 0 20px 60px #e56f8e30;
+      animation: welcome-pop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes welcome-pop {
+      0% { transform: scale(0.85); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .welcome-flower-icon {
+      font-size: 3.5rem;
+      display: inline-block;
+      animation: bounce-flower 2s infinite ease-in-out;
+    }
+    @keyframes bounce-flower {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(8deg); }
+    }
+    .welcome-box h2 {
+      margin: 12px 0 8px;
+      font-family: Georgia, serif;
+      font-size: 2.1rem;
+      color: var(--rose-dark);
+      font-weight: 500;
+    }
+    .welcome-box p {
+      margin: 0 0 24px;
+      color: #796670;
+      font-size: 1.02rem;
+      line-height: 1.7;
+    }
+    .welcome-btn {
+      width: 100%;
+      font-size: 1.05rem;
+      padding: 14px 24px;
+      box-shadow: 0 10px 28px #d75d7f55;
+    }
+
     /* Nút điều khiển phát nhạc */
     .music-btn {
       position: fixed;
@@ -513,12 +615,12 @@
       z-index: 99;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
       padding: 10px 18px;
       border: 1px solid #f3d6dc;
       border-radius: 100px;
       background: #fffaf7f0;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
       box-shadow: 0 8px 24px #49303c1f;
       color: var(--rose-dark);
       font-size: .88rem;
@@ -534,6 +636,25 @@
     .music-btn.playing .music-disc {
       animation: spin 3s linear infinite;
     }
+    .music-waves {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2.5px;
+      height: 14px;
+    }
+    .music-waves span {
+      width: 3px;
+      background: var(--rose-dark);
+      border-radius: 2px;
+      animation: wave 1.2s ease-in-out infinite alternate;
+    }
+    .music-waves span:nth-child(1) { height: 60%; animation-delay: 0.1s; }
+    .music-waves span:nth-child(2) { height: 100%; animation-delay: 0.3s; }
+    .music-waves span:nth-child(3) { height: 40%; animation-delay: 0.2s; }
+    .music-btn:not(.playing) .music-waves span {
+      animation: none;
+      height: 25% !important;
+    }
     .music-disc {
       display: inline-block;
       font-size: 1.15rem;
@@ -541,15 +662,38 @@
     @keyframes spin {
       100% { transform: rotate(360deg); }
     }
+    @keyframes wave {
+      0% { height: 20%; }
+      100% { height: 100%; }
+    }
   </style>
 </head>
 <body>
   <audio id="bg-music" src="thang-nam-ruc-ro.mp3" preload="auto" loop></audio>
+
+  <!-- Màn hình chào mừng mở thiệp & phát nhạc tự động -->
+  <aside id="welcome-gate" class="welcome-overlay" aria-modal="true" role="dialog" aria-labelledby="welcome-title">
+    <div class="welcome-box">
+      <span class="welcome-flower-icon" aria-hidden="true">💐</span>
+      <h2 id="welcome-title">Chào Mừng 20/10!</h2>
+      <p>Một món quà đặc biệt ngập tràn sắc hoa và giai điệu ngọt ngào dành riêng cho những cô gái tuyệt vời của lớp mình ✨</p>
+      <button id="enter-site-btn" class="button button-primary welcome-btn" type="button">
+        🌸 Mở Thiệp & Lắng Nghe Giai Điệu 🎶
+      </button>
+    </div>
+  </aside>
+
+  <!-- Nút điều khiển âm nhạc xinh xắn góc màn hình -->
   <button id="music-toggle" class="music-btn" type="button" aria-label="Bật/Tắt nhạc nền">
     <span class="music-disc" aria-hidden="true">🎵</span>
     <span class="music-label">Nhạc: Tháng Năm Rực Rỡ</span>
+    <span class="music-waves" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </span>
   </button>
 
+  <!-- Hiệu ứng đom đóm sáng lấp lánh & cánh hoa rơi -->
+  <div class="glow-particles" id="glow-particles" aria-hidden="true"></div>
   <div class="petals" aria-hidden="true"></div>
 
   <header class="page-shell topbar">
@@ -854,21 +998,58 @@
 
     document.querySelector("#send-flower").addEventListener("click", (event) => sendFlower(event.currentTarget));
 
-    // Xử lý phát nhạc tự động bài Tháng Năm Rực Rỡ
+    // 1. Tạo hiệu ứng đom đóm / hạt sáng lơ lửng
+    const glowContainer = document.querySelector("#glow-particles");
+    if (!prefersReducedMotion.matches && glowContainer) {
+      for (let i = 0; i < 20; i += 1) {
+        const firefly = document.createElement("span");
+        firefly.className = "firefly";
+        firefly.style.left = `${Math.random() * 100}%`;
+        const dur = 10 + Math.random() * 10;
+        firefly.style.animationDuration = `${dur}s`;
+        firefly.style.animationDelay = `-${Math.random() * dur}s`;
+        glowContainer.append(firefly);
+      }
+    }
+
+    // 2. Hiệu ứng con trỏ chuột rải hoa/sao lấp lánh (trên máy tính & chạm trên điện thoại)
+    const sparkleIcons = ["🌸", "✨", "🌷", "💖", "⭐", "💐"];
+    let lastSparkleTime = 0;
+    function createSparkle(x, y) {
+      const now = performance.now();
+      if (now - lastSparkleTime < 45) return; // giới hạn tần suất tạo hạt mượt mà
+      lastSparkleTime = now;
+
+      const sparkle = document.createElement("span");
+      sparkle.className = "cursor-sparkle";
+      sparkle.textContent = sparkleIcons[Math.floor(Math.random() * sparkleIcons.length)];
+      sparkle.style.left = `${x}px`;
+      sparkle.style.top = `${y}px`;
+      document.body.appendChild(sparkle);
+      sparkle.addEventListener("animationend", () => sparkle.remove(), { once: true });
+    }
+
+    window.addEventListener("pointermove", (e) => {
+      createSparkle(e.clientX, e.clientY);
+    });
+
+    // 3. Xử lý phát nhạc tự động bài Tháng Năm Rực Rỡ & Màn chào đón
     const bgMusic = document.querySelector("#bg-music");
     const musicToggle = document.querySelector("#music-toggle");
     const musicLabel = musicToggle.querySelector(".music-label");
+    const welcomeGate = document.querySelector("#welcome-gate");
+    const enterSiteBtn = document.querySelector("#enter-site-btn");
 
     let isPlaying = false;
 
-    function startMusic() {
+    function playMusic() {
       if (isPlaying) return;
       bgMusic.play().then(() => {
         isPlaying = true;
         musicToggle.classList.add("playing");
         musicLabel.textContent = "Đang phát: Tháng Năm Rực Rỡ";
-      }).catch(() => {
-        // Trình duyệt chặn autoplay khi chưa có tương tác
+      }).catch((err) => {
+        console.log("Autoplay waiting for interaction:", err);
         musicLabel.textContent = "Bấm để nghe: Tháng Năm Rực Rỡ";
       });
     }
@@ -893,15 +1074,28 @@
       toggleMusic();
     });
 
-    // Cố gắng tự động phát ngay khi tải trang
+    // Bấm nút Mở thiệp: ẩn overlay, kích hoạt phát nhạc và hiệu ứng hoa tung bay
+    if (enterSiteBtn && welcomeGate) {
+      enterSiteBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        playMusic();
+        sendFlower(enterSiteBtn);
+        welcomeGate.classList.add("hidden");
+      });
+    }
+
+    // Tự động thử phát ngay khi vừa load
     window.addEventListener("DOMContentLoaded", () => {
-      startMusic();
+      playMusic();
     });
 
-    // Khi người dùng bấm bất kỳ đâu lần đầu tiên trên trang web, tự động bật nhạc nếu trình duyệt chặn autoplay trước đó
+    // Bất cứ tương tác đầu tiên nào trên trang (click, touch, scroll) đều kích hoạt phát nhạc ngay lập tức
     const handleFirstInteraction = () => {
       if (!isPlaying) {
-        startMusic();
+        playMusic();
+      }
+      if (welcomeGate && !welcomeGate.classList.contains("hidden")) {
+        welcomeGate.classList.add("hidden");
       }
       window.removeEventListener("click", handleFirstInteraction);
       window.removeEventListener("touchstart", handleFirstInteraction);
