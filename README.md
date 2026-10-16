@@ -4,14 +4,14 @@ Website chúc mừng 20/10 dành cho các bạn nữ lớp 11A6. Trang có giao 
 
 ## Đưa website lên GitHub Pages
 
-1. Mở repository `yvhgh2473-max/20-10v` trên GitHub.
+1. Mở repository `ngocrong33221-max/20-10v` trên GitHub.
 2. Chọn **Add file → Upload files**.
 3. Tải `index.html` và `README.md` từ thư mục này lên **thư mục gốc** của repository. Sau khi chọn file, GitHub phải hiển thị `index.html` ở cấp đầu tiên, không nằm trong thư mục con.
 4. Chọn **Commit directly to the `main` branch** rồi nhấn **Commit changes**.
 5. Mở **Settings → Pages**. Trong **Build and deployment**, chọn **Deploy from a branch**, chọn nhánh `main` và thư mục `/(root)`, rồi nhấn **Save**.
 6. Đợi GitHub Pages hoàn tất xuất bản rồi mở:
 
-   <https://yvhgh2473-max.github.io/20-10v/>
+   <https://ngocrong33221-max.github.io/20-10v/>
 
 `index.html` là file chạy website. `README.md` chỉ là hướng dẫn. Không cần cài thư viện, tải thêm ảnh, build hoặc thêm backend.
 
@@ -24,6 +24,7 @@ Danh sách tên đã nhận được lưu trong bộ nhớ của trình duyệt,
 # 20-10v
 # 2345
 # 2345
+# 20-10
 # 20-10
 # 20-10
 # 20-10
