@@ -593,6 +593,62 @@
       .petals { display: none; }
     }
 
+    /* Canvas pháo hoa / cánh hoa 3D toàn màn hình */
+    #fx-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    /* Bong bóng trái tim bay bổng */
+    .balloon-box {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+      overflow: hidden;
+    }
+    .balloon {
+      position: absolute;
+      bottom: -80px;
+      font-size: var(--b-size, 2rem);
+      filter: drop-shadow(0 8px 16px rgba(233, 30, 99, 0.25));
+      animation: float-balloon var(--b-duration, 12s) linear infinite;
+      opacity: 0.8;
+    }
+    @keyframes float-balloon {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.85; }
+      90% { opacity: 0.75; }
+      100% { transform: translateY(-115vh) rotate(var(--b-rot, 25deg)); opacity: 0; }
+    }
+
+    /* Hiệu ứng trái tim nổ tung khi nhấp chuột (Click Burst) */
+    .click-heart {
+      position: fixed;
+      pointer-events: none;
+      z-index: 10000;
+      font-size: var(--h-size, 1.4rem);
+      user-select: none;
+      animation: heart-burst 1s cubic-bezier(0.15, 0.9, 0.3, 1.2) forwards;
+    }
+    @keyframes heart-burst {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.4) rotate(0deg);
+      }
+      50% {
+        opacity: 0.95;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.3) rotate(var(--rot));
+      }
+    }
+
     /* Hiệu ứng đom đóm / hạt sáng lấp lánh bay lượn */
     .glow-particles {
       position: fixed;
@@ -811,6 +867,12 @@
     </span>
   </button>
 
+  <!-- Canvas pháo hoa & hạt sáng toàn màn hình -->
+  <canvas id="fx-canvas"></canvas>
+
+  <!-- Bong bóng hoa & trái tim bay bổng -->
+  <div class="balloon-box" id="balloon-box" aria-hidden="true"></div>
+
   <!-- Hiệu ứng đom đóm sáng lấp lánh & cánh hoa rơi -->
   <div class="glow-particles" id="glow-particles" aria-hidden="true"></div>
   <div class="petals" aria-hidden="true"></div>
@@ -878,26 +940,41 @@
 
     <section class="page-shell wishes" id="loi-thuong" aria-labelledby="wishes-title">
       <div class="section-heading">
-        <div class="eyebrow">Một lời chúc nhỏ</div>
-        <h2 id="wishes-title">Chúc bạn luôn rực rỡ</h2>
-        <p>Gửi những lời chúc đến từng bạn nữ của tập thể 11A6.</p>
+        <div class="eyebrow">Những Lời Nhắn Gửi Chân Thành</div>
+        <h2 id="wishes-title">Gửi Những Đóa Hoa Đẹp Nhất 11A6</h2>
+        <p>Từng lời chúc được viết từ tất cả sự trân trọng và tình cảm của các thành viên gửi đến phái nữ của lớp mình.</p>
       </div>
 
       <div class="wish-grid">
         <article class="wish-card">
           <span class="wish-icon" aria-hidden="true">🌷</span>
-          <h3>Luôn vui như nắng</h3>
-          <p>Chúc bạn lúc nào cũng tươi tắn, yêu đời và cười thật nhiều mỗi ngày.</p>
+          <h3>Nụ Cười Tỏa Nắng & Bình An</h3>
+          <p>Chúc bạn mỗi sáng thức dậy luôn tràn đầy năng lượng tươi vui, nụ cười rạng rỡ luôn nở trên môi dù gặp bài toán khó hay những ngày áp lực thi cử. Mong bạn luôn tìm thấy niềm vui trong những điều bình dị nhất của tuổi học trò.</p>
         </article>
         <article class="wish-card">
           <span class="wish-icon" aria-hidden="true">✨</span>
-          <h3>Toả sáng theo cách riêng</h3>
-          <p>Mong mọi ước mơ của bạn đều nở hoa, và mọi cố gắng đều được đền đáp.</p>
+          <h3>Tự Tin Tỏa Sáng Theo Cách Riêng</h3>
+          <p>Mỗi bạn nữ trong lớp đều là một vì sao lấp lánh mang một cá tính và nét cuốn hút rất riêng. Mong bạn luôn tự tin vào bản thân, kiên trì theo đuổi đam mê, và tin rằng mọi ước mơ bạn ấp ủ đều sẽ nở hoa thật rực rỡ.</p>
         </article>
         <article class="wish-card">
-          <span class="wish-icon" aria-hidden="true">🫶</span>
-          <h3>Luôn được yêu thương</h3>
-          <p>Cảm ơn bạn vì đã là một mảnh ghép thật đặc biệt của lớp chúng mình.</p>
+          <span class="wish-icon" aria-hidden="true">💖</span>
+          <h3>Luôn Được Nâng Niu & Yêu Thương</h3>
+          <p>Cảm ơn các bạn vì đã luôn là những mảnh ghép ngọt ngào, chu đáo và dịu dàng giúp lớp 11A6 trở thành một gia đình ấm áp. Chúc bạn luôn nhận được sự trân trọng, yêu quý từ thầy cô, gia đình và bạn bè xung quanh.</p>
+        </article>
+        <article class="wish-card">
+          <span class="wish-icon" aria-hidden="true">📚</span>
+          <h3>Học Tập Thành Công & Vạn Sự Như Ý</h3>
+          <p>Chúc bạn học đâu hiểu đó, làm bài kiểm tra nào cũng đạt điểm số thật cao, vượt qua mọi kỳ thi với phong độ xuất sắc nhất. Mong con đường học vấn của bạn luôn hanh thông và chạm tới những cánh cửa đại học mơ ước.</p>
+        </article>
+        <article class="wish-card">
+          <span class="wish-icon" aria-hidden="true">🌸</span>
+          <h3>Mãi Xinh Đẹp & Duyên Dáng</h3>
+          <p>Không chỉ hôm nay mà 365 ngày trong năm, mong các cô gái của lớp mình lúc nào cũng xinh đẹp, duyên dáng và giữ mãi nét hồn nhiên trong trẻo. Hãy yêu thương bản thân thật nhiều và sống trọn vẹn từng khoảnh khắc thanh xuân.</p>
+        </article>
+        <article class="wish-card">
+          <span class="wish-icon" aria-hidden="true">🌈</span>
+          <h3>Thanh Xuân Rực Rỡ Cùng 11A6</h3>
+          <p>Những năm tháng cấp ba bên cạnh nhau là khoảng thời gian đẹp nhất. Chúc bạn và tập thể 11A6 sẽ cùng nhau tạo nên thật nhiều kỷ niệm đáng nhớ, đầy ắp tiếng cười giòn tan dưới mái trường thân thương này.</p>
         </article>
       </div>
     </section>
@@ -967,56 +1044,26 @@
     });
 
     const wishPool = [
-      "Chúc {name} luôn tự tin, xinh tươi và tỏa sáng theo cách thật riêng của mình.",
-      "Chúc {name} có một ngày 20/10 ngập tràn niềm vui, tiếng cười và những điều ngọt ngào.",
-      "Mong {name} luôn vững vàng theo đuổi ước mơ và tự hào về mọi cố gắng của bản thân.",
-      "Chúc nụ cười của {name} luôn rạng rỡ, thắp sáng cả một ngày bình thường.",
-      "Mong {name} có một năm học nhiều thành tích đáng tự hào và kỷ niệm thật đẹp cùng 11A6.",
-      "Chúc {name} luôn gặp những người bạn tốt, luôn được lắng nghe và trân trọng.",
-      "Mong mọi dự định của {name} đều thuận lợi, mọi mục tiêu đều dần trở thành hiện thực.",
-      "Chúc {name} mỗi ngày đều có thêm một lý do đáng yêu để mỉm cười.",
-      "Mong {name} luôn giữ được sự hồn nhiên, ấm áp và năng lượng tích cực của mình.",
-      "Chúc cô gái {name} luôn khỏe mạnh, bình an và được yêu thương thật nhiều.",
-      "Mong những điều tử tế sẽ luôn tìm đến {name}, giống như cách {name} làm mọi người vui.",
-      "Chúc {name} học điều gì cũng hiểu, thi bài nào cũng tốt và luôn tin vào chính mình.",
-      "Mong {name} ngày càng khám phá được nhiều khả năng tuyệt vời của bản thân.",
-      "Chúc {name} có thật nhiều khoảnh khắc đáng nhớ và tình bạn đẹp dưới mái trường.",
-      "Mong hành trình phía trước của {name} luôn có niềm vui, hy vọng và những điều mới mẻ.",
-      "Chúc {name} lúc nào cũng rạng rỡ, dù là ngày nắng vàng hay một hôm trời nhiều mây.",
-      "Mong {name} đủ kiên trì với điều mình yêu thích và đủ dịu dàng với chính mình.",
-      "Chúc {name} gặp nhiều may mắn, nhận nhiều tin vui và đạt kết quả thật xứng đáng.",
-      "Mong mỗi ngày đến lớp của {name} đều có chuyện vui để kể cùng 11A6.",
-      "Chúc {name} luôn xinh đẹp từ nụ cười, tự tin từ bên trong và mạnh mẽ theo cách riêng.",
-      "Mong mọi nỗ lực thầm lặng của {name} đều được đền đáp bằng những thành quả ngọt ngào.",
-      "Chúc {name} có một ngày lễ thật vui và cả tháng Mười thật nhiều điều bất ngờ dễ thương.",
-      "Mong {name} luôn giữ được sự tò mò, ham học hỏi và đam mê khám phá những điều hay.",
-      "Chúc những ước mơ của {name} lớn lên mỗi ngày và sớm nở thành hiện thực.",
-      "Mong {name} luôn bình an, an nhiên và có thật nhiều người bạn đáng tin bên cạnh.",
-      "Chúc {name} đi học vui vẻ, làm bài thật tốt và lúc nào cũng tràn đầy cảm hứng.",
-      "Mong nét đáng yêu của {name} sẽ mang đến thật nhiều tiếng cười cho lớp 11A6.",
-      "Chúc {name} luôn nhận ra mình đặc biệt thế nào và tự tin đón nhận những cơ hội mới.",
-      "Mong {name} có thêm thật nhiều trải nghiệm thú vị và những kỷ niệm tuổi học trò đáng nhớ.",
-      "Chúc {name} gặp thuận lợi trong những việc đang làm và tự hào về con đường đã chọn.",
-      "Mong {name} ngày càng trưởng thành nhưng vẫn giữ mãi trái tim ấm áp, đáng mến.",
-      "Chúc mọi ngày của {name} đều có chút nắng, chút vui và thật nhiều thương mến.",
-      "Mong {name} luôn tìm được động lực mới mỗi khi mệt và niềm vui sau mỗi lần cố gắng.",
-      "Chúc {name} tự tin phát biểu, vững vàng trước thử thách và tỏa sáng trong mọi hoạt động.",
-      "Mong những trang thanh xuân của {name} cùng 11A6 luôn đầy ắp tiếng cười chân thành.",
-      "Chúc {name} gặp được thật nhiều điều tốt lành và luôn nhớ rằng lớp mình quý bạn lắm.",
-      "Mong {name} có đủ dũng khí để thử điều mới và đủ tự hào với những bước tiến nhỏ.",
-      "Chúc cô bạn {name} luôn yêu đời, yêu bản thân và được cuộc sống dịu dàng ôm lấy.",
-      "Mong {name} hoàn thành tốt những mục tiêu đang đặt ra và luôn vui với hành trình đó.",
-      "Chúc {name} luôn có những buổi sáng đầy hứng khởi và những buổi chiều tan học thật vui.",
-      "Mong điều tuyệt vời nhất của hôm nay chỉ là khởi đầu cho nhiều niềm vui của {name}.",
-      "Chúc {name} luôn duyên dáng, thông minh và là phiên bản hạnh phúc nhất của chính mình.",
-      "Mong {name} giữ mãi những tình bạn đẹp và cùng 11A6 tạo nên nhiều chuyện đáng nhớ.",
-      "Chúc {name} gặp đúng cơ hội, đúng người đồng hành và đúng thời điểm cho những ước mơ.",
-      "Mong mỗi thử thách đều giúp {name} thêm trưởng thành và thêm tin vào khả năng của mình.",
-      "Chúc {name} có một dịp 20/10 thật đáng nhớ, được quan tâm bằng những điều nhỏ bé chân thành.",
-      "Mong {name} luôn được là chính mình, thoải mái theo đuổi sở thích và tỏa sáng thật tự nhiên.",
-      "Chúc cô gái {name} luôn tràn đầy sức sống, lòng tốt và những ý tưởng thật tuyệt vời.",
-      "Mong những niềm vui nho nhỏ sẽ ghé thăm {name} mỗi ngày và ở lại thật lâu.",
-      "Chúc {name} đón tuổi học trò với tâm thế tự tin, trái tim vui vẻ và bao dự định đẹp."
+      "Gửi {name} thân mến! Nhân ngày 20/10, chúc bạn luôn giữ được nét hồn nhiên, nụ cười tỏa nắng và một trái tim ấm áp. Chúc {name} bước vào mỗi ngày mới với ngập tràn năng lượng tích cực, học tập thật xuất sắc, kiểm tra điểm 9 điểm 10 rực rỡ và luôn là niềm tự hào của cả gia đình cùng tập thể 11A6 nhé!",
+      "Chúc {name} có một ngày 20/10 thật ngọt ngào và đáng nhớ! Mong rằng thanh xuân của bạn sẽ ngập tràn những điều kỳ diệu: mọi bài toán khó đều có lời giải, mọi ước mơ ấp ủ đều sớm thành hiện thực và cuộc sống luôn dịu dàng mỉm cười nâng niu {name} mỗi ngày.",
+      "Gửi tới cô gái tuyệt vời mang tên {name}! Chúc bạn luôn tự tin vào giá trị của bản thân, kiên định với con đường mình đã chọn và không ngừng tỏa sáng rực rỡ. Cảm ơn {name} vì đã luôn mang đến nguồn năng lượng dịu dàng, dễ thương cho lớp mình!",
+      "Nhân ngày Phụ nữ Việt Nam 20/10, chúc {name} luôn xinh tươi như hoa ban mai, dịu dàng như nắng mùa thu và rạng ngời theo cách riêng biệt nhất. Mong mọi kỳ thi sắp tới của {name} đều thuận lợi suôn sẻ, làm bài tự tin và đạt thành tích cao nhất!",
+      "Chúc {name} của 11A6 một ngày 20/10 ngập tràn hoa tươi, quà tặng và những lời yêu thương chân thành nhất! Mong bạn luôn gặp gỡ những người bạn tốt, luôn được lắng nghe, chở che và trân trọng như một đóa hoa quý giá giữa đời thường.",
+      "Gửi {name}, mong bạn luôn có đủ dũng khí để theo đuổi những hoài bão lớn lao, nhưng cũng đủ dịu dàng để yêu thương chính mình trong từng khoảnh khắc nhỏ bé. Chúc bạn có một năm học thành công vang dội và những kỷ niệm học trò đẹp nhất!",
+      "Chúc {name} luôn vui vẻ, lạc quan và yêu đời! Mong rằng mỗi ngày đến trường của bạn đều rộn rã tiếng cười, mỗi buổi tan trường đều mang về sự nhẹ nhõm, hạnh phúc và hành trình phía trước luôn trải đầy hoa hồng cùng những cơ hội tuyệt vời.",
+      "Chúc cô bạn {name} đáng mến có một ngày 20/10 ngập tràn niềm vui bất ngờ! Mong {name} luôn được là chính mình – một phiên bản thông minh, đáng yêu, bản lĩnh và không ngừng tiến bộ mỗi ngày dưới mái nhà chung 11A6.",
+      "Gửi tới {name}! Cảm ơn bạn vì đã là một mảnh ghép thật đặc biệt và đáng quý của lớp chúng mình. Chúc bạn một ngày 20/10 ngập tràn tiếng cười, nhận được thật nhiều tình cảm ấm áp và những điều ước tốt đẹp nhất sẽ đến với bạn!",
+      "Chúc {name} luôn rạng ngời sắc xuân, đôi mắt luôn ánh lên niềm hy vọng và nụ cười luôn đong đầy sự lạc quan. Chúc cho con đường học tập và tương lai của {name} luôn hanh thông, vững vàng chạm tới cánh cổng đại học mơ ước!",
+      "Nhân ngày 20/10, chúc {name} luôn cảm nhận được sự yêu thương bao bọc từ mọi người xung quanh. Mong những muộn phiền nếu có đều nhanh chóng tan biến như mây trời, nhường chỗ cho niềm vui, sự tự tin và thành công nở rộ!",
+      "Chúc {name} học điều gì cũng thấu suốt, nhớ lâu hiểu sâu, đi thi câu nào cũng làm đúng và luôn giữ vững niềm tin vào năng lực của bản thân. {name} hãy luôn tự hào về sự nỗ lực thầm lặng và tuyệt vời của mình nhé!",
+      "Gửi {name} thân thương! Mong rằng bạn sẽ có những năm tháng thanh xuân cấp ba đẹp như một thước phim điện ảnh: đầy ắp tiếng cười giòn tan, những tình bạn chân thành sâu sắc và những dấu ấn rực rỡ không bao giờ phai mờ.",
+      "Chúc {name} mỗi sớm mai thức dậy đều có một lý do để mỉm cười, mỗi đêm về đều có giấc ngủ bình yên và một tâm hồn an nhiên. Bạn xứng đáng đón nhận tất cả những điều tử tế, ngọt ngào và hạnh phúc nhất trên thế giới này!",
+      "Chúc cô gái {name} luôn mạnh mẽ vượt qua mọi thử thách, luôn mềm mại đón nhận yêu thương và luôn tỏa sáng rực rỡ như một đóa hướng dương hướng về mặt trời. 11A6 luôn tự hào và trân trọng sự hiện diện của bạn!",
+      "Nhân dịp 20/10, chúc {name} luôn dồi dào sức khỏe, tinh thần sảng khoái và tràn đầy nhiệt huyết. Mong những kế hoạch, dự định bạn đang ấp ủ sẽ đều gặt hái được những trái ngọt xứng đáng với công sức bạn bỏ ra!",
+      "Gửi {name}! Chúc nụ cười rạng rỡ của bạn sẽ luôn là nguồn cảm hứng tươi sáng sưởi ấm những ngày đông giá rét hay những buổi học căng thẳng. Chúc bạn luôn bình an, may mắn và có một ngày lễ 20/10 thật trọn vẹn!",
+      "Chúc {name} luôn giữ trọn nét hồn nhiên, sự sâu sắc trong suy nghĩ và lòng nhân ái trong tim. Dù mai này cuộc sống có đưa ta đi đến đâu, mong {name} sẽ mãi nhớ về những năm tháng 11A6 tuyệt đẹp của chúng mình!",
+      "Chúc {name} ngày càng duyên dáng, đáng yêu và tự tin thể hiện cá tính riêng của mình. Mong mọi may mắn trên thế gian này đều sẽ ghé thăm bạn, tiếp thêm cho bạn sức mạnh để chinh phục mọi ước mơ tuổi trẻ!",
+      "Gửi đến {name} – một cô gái tài năng và đáng quý của 11A6! Chúc bạn có một ngày 20/10 thật lung linh, ấm áp bên gia đình và bạn bè. Mong bạn luôn yêu thương bản thân, tỏa sáng theo cách của riêng bạn và luôn hạnh phúc!"
     ];
     const wishStorageKey = "11a6-2010-wish-assignments-v1";
     const normalizeName = (name) => name.normalize("NFC").trim().replace(/\s+/g, " ").toLocaleLowerCase("vi");
@@ -1152,6 +1199,120 @@
       createSparkle(e.clientX, e.clientY);
     });
 
+    // 3. Hiệu ứng bùng nổ trái tim khi click vào bất cứ đâu (Click Heart Burst)
+    const heartIcons = ["💖", "💕", "🌸", "🌷", "✨", "💓", "💐"];
+    function createClickHeartBurst(x, y) {
+      const count = 10;
+      for (let i = 0; i < count; i += 1) {
+        const heart = document.createElement("span");
+        heart.className = "click-heart";
+        heart.textContent = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+        const angle = (Math.PI * 2 * i) / count + (Math.random() * 0.4 - 0.2);
+        const dist = 50 + Math.random() * 70;
+        heart.style.setProperty("--dx", `${Math.cos(angle) * dist}px`);
+        heart.style.setProperty("--dy", `${Math.sin(angle) * dist}px`);
+        heart.style.setProperty("--rot", `${Math.random() * 360}deg`);
+        heart.style.setProperty("--h-size", `${1.1 + Math.random() * 0.7}rem`);
+        heart.style.left = `${x}px`;
+        heart.style.top = `${y}px`;
+        document.body.appendChild(heart);
+        heart.addEventListener("animationend", () => heart.remove(), { once: true });
+      }
+    }
+
+    window.addEventListener("click", (e) => {
+      createClickHeartBurst(e.clientX, e.clientY);
+    });
+
+    // 4. Tạo bong bóng bay bồng bềnh
+    const balloonBox = document.querySelector("#balloon-box");
+    const balloonIcons = ["🎈", "🌸", "💖", "🌷", "✨", "🎀"];
+    if (!prefersReducedMotion.matches && balloonBox) {
+      function spawnBalloon() {
+        const b = document.createElement("span");
+        b.className = "balloon";
+        b.textContent = balloonIcons[Math.floor(Math.random() * balloonIcons.length)];
+        b.style.left = `${Math.random() * 95}%`;
+        b.style.setProperty("--b-size", `${1.6 + Math.random() * 1.5}rem`);
+        b.style.setProperty("--b-duration", `${11 + Math.random() * 9}s`);
+        b.style.setProperty("--b-rot", `${(Math.random() - 0.5) * 60}deg`);
+        balloonBox.appendChild(b);
+        b.addEventListener("animationend", () => b.remove(), { once: true });
+      }
+      for (let i = 0; i < 6; i += 1) {
+        setTimeout(spawnBalloon, i * 1800);
+      }
+      setInterval(spawnBalloon, 2600);
+    }
+
+    // 5. Hiệu ứng Canvas hạt ánh sáng và hoa pháo lung linh chạy liên tục
+    const canvas = document.querySelector("#fx-canvas");
+    if (canvas && !prefersReducedMotion.matches) {
+      const ctx = canvas.getContext("2d");
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+
+      window.addEventListener("resize", () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      const particles = [];
+      const colors = ["#ff4081", "#ff80ab", "#f50057", "#ffb300", "#ffd54f", "#e040fb"];
+
+      function addBurst(x, y, amount = 25) {
+        for (let i = 0; i < amount; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 1.5 + Math.random() * 4.5;
+          particles.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 1,
+            size: 2.5 + Math.random() * 3.5,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            alpha: 1,
+            decay: 0.012 + Math.random() * 0.018,
+            gravity: 0.04
+          });
+        }
+      }
+
+      function loop() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += p.gravity;
+          p.alpha -= p.decay;
+
+          if (p.alpha <= 0) {
+            particles.splice(i, 1);
+            continue;
+          }
+
+          ctx.save();
+          ctx.globalAlpha = p.alpha;
+          ctx.fillStyle = p.color;
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+        requestAnimationFrame(loop);
+      }
+      loop();
+
+      // Bắn pháo hoa rực rỡ chào mừng khi người dùng mở thiệp
+      window.triggerFireworks = (x, y) => {
+        addBurst(x, y, 40);
+        setTimeout(() => addBurst(x + 50, y - 40, 30), 200);
+        setTimeout(() => addBurst(x - 50, y - 30, 30), 350);
+      };
+    }
+
     // 3. Xử lý phát nhạc tự động bài Tháng Năm Rực Rỡ & Màn chào đón
     const bgMusic = document.querySelector("#bg-music");
     const musicToggle = document.querySelector("#music-toggle");
@@ -1199,6 +1360,10 @@
         e.stopPropagation();
         playMusic();
         sendFlower(enterSiteBtn);
+        if (window.triggerFireworks) {
+          window.triggerFireworks(window.innerWidth / 2, window.innerHeight / 2);
+        }
+        createClickHeartBurst(e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 2);
         welcomeGate.classList.add("hidden");
       });
     }
